@@ -274,13 +274,3 @@ def blog_parser(markdown):
     return return_array
 
 
-
-'''
-# Example markdown text
-with open("markdown_test.md", 'r') as f:
-    markdown_text = f.read()
-
-# Convert to JSON
-with open('test_out.json', 'w') as f:
-    f.write(json.dumps(markdown_to_json(markdown_text, []), indent=2))
-'''
