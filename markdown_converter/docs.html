@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Sanity Uploading Program</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 52em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="sanity-uploading-program">Sanity Uploading Program</h1>
+<p>The sanity document uploader automatically formats markdown documents
+into Sanity’s document JSON format, then uploads them. It is designed
+specifically for blog posts, but can be adapted for other pages
+(probably). The document uploader preserves all text stylizing,
+including headers (levels 2-5), bold, italics, and links. The document
+uploader does not work with images, as those require access to
+Cloudinary and the JSON looks really scary.</p>
+<h2 id="markdown-blog-format">Markdown Blog Format</h2>
+<p>A blog document itself has a specific (yet simple) format to it which
+the program searches for and parses. The format is as follows:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Title</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>Summary goes here</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">hr</span><span class="dt">&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>Rest of document goes here</span></code></pre></div>
+<p><code>&lt;hr&gt;</code> is used specifically to split the title and
+summary from the rest of the blog. The title must always be a level-1
+heading, appearing at the top of the document. The summary must always
+appear below it, and <code>&lt;hr&gt;</code> must appear below the
+summary. The whitespace between the title, summary, and
+<code>&lt;hr&gt;</code> does not affect processing.</p>
+<p>For the rest of the document, only level-2 to level-5 headers
+(specified by repeating <code>#</code>) onward can be used. Italicizing
+and bolding is done by surrounding text with one or two asterisks:
+<code>*italicized*</code>, <code>**bolded**</code>. While underscores
+are supported in markdown, I did not care to implement this. Links are
+done by specifying the link text in square brackets, and the link url in
+parentheses afterwards: <code>[link text](link url)</code>. I have no
+clue how images will appear when uploading, but as they are not handled
+by the program it is not recommended to leave them in. I would imagine
+that they will appear as an exclamation mark, followed by a link to the
+image though.</p>
+<h3 id="ignoring-formatting">Ignoring Formatting</h3>
+<p>If the blog format is not used, not only will I be sad, but the
+program <em>should</em> just consider the entire document body as
+content. This has not been explicitly tested, but it probably works. In
+this case, properties like the blog title and summary can be specified
+using either field borrowing, or field uploading (through JSON)
+discussed below.</p>
+<h3 id="handling-sanitys-document-formatting">Handling Sanity’s Document
+Formatting</h3>
+<p>Sanity has many document properties which are required to be unique.
+Sometimes the uniqueness is only required within a given document (like
+with <code>_key</code> properties) and other times it is required
+throughout the entire database (like with <code>_id</code> and
+<code>slug</code>). For the <code>_key</code> property, the document
+automatically generates unique identifiers as necessary. When using
+field borrowing, the program will ensure that any keys from the borrowed
+fields will not be regenerated for other applications. This ensures that
+duplicate keys cannot arise when importing field information.</p>
+<p>Document ID’s are generated automatically when uploading a document
+using Sanity’s CLI. Sanity ensures that any uploaded document will have
+its own unique ID. The program integrates with Sanity’s CLI, and as a
+result does not directly generate the document ID.</p>
+<p>There are no other safeguards in place to prevent field/property
+duplication. This falls on the responsibility of the user to ensure that
+properties such as <code>slug</code> are unique. The <code>_key</code>
+property and the <code>_id</code> property are taken care of.</p>
+<h2 id="cli-arguments">CLI Arguments</h2>
+<p>There are several arguments which can be passed into the document
+uploader, but only one is required. They are outlined in the following
+table.</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>short option</th>
+<th>long option</th>
+<th>values</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Input</td>
+<td><code>-i</code></td>
+<td><code>--input</code></td>
+<td>Path to markdown file</td>
+<td>Provides a path to the markdown file to be uploaded.</td>
+</tr>
+<tr class="even">
+<td>Reference ID</td>
+<td><code>-d</code></td>
+<td><code>--doc-id</code></td>
+<td>ID of existing document</td>
+<td>Allows for certain fields to be copied over from the specified
+document.</td>
+</tr>
+<tr class="odd">
+<td>Field Borrow</td>
+<td><code>-fb</code></td>
+<td><code>--field-borrow</code></td>
+<td>List of fields to be copied over</td>
+<td>Allows for specified fields to be copied over from another document.
+<strong>Requires document ID to be specified</strong>.</td>
+</tr>
+<tr class="even">
+<td>Field Upload</td>
+<td><code>-fu</code></td>
+<td><code>--field-upload</code></td>
+<td>Path to JSON file</td>
+<td>Provides a path to a local JSON file with specified fields for the
+document.</td>
+</tr>
+<tr class="odd">
+<td>Auto-Publish</td>
+<td><code>-P</code></td>
+<td><code>--publish</code></td>
+<td>None</td>
+<td>Automatically publishes document upon upload.</td>
+</tr>
+</tbody>
+</table>
+<p>There are two additional arguments which rework the way the program
+runs. These arguments are run with the program itself.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>short option</th>
+<th>long option</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Help</td>
+<td><code>-h</code></td>
+<td><code>--help</code></td>
+<td>Displays this and the above table in the command line.</td>
+</tr>
+<tr class="even">
+<td>Read Docs</td>
+<td><code>-r</code></td>
+<td><code>--read-docs</code></td>
+<td>Opens the documentation in your default browser.</td>
+</tr>
+</tbody>
+</table>
+<p>All documents are uploaded as drafts. This can be disabled by
+specifying <code>-P</code> or <code>--publish</code>, which
+automatically publishes the document.</p>
+<p>Specifying a reference document without any fields to borrow (not
+using <code>-fb</code> or <code>--field-borrow</code>) will
+automatically borrow the following fields:</p>
+<ul>
+<li>topic tags</li>
+<li>craft tags</li>
+<li>featured posts</li>
+</ul>
+<p>Specifying fields to borrow will override this list, not append to
+it, so using <code>-fb blogTitle</code> will only copy over the blog
+title and not the fields listed above.</p>
+<h3 id="list-of-fields">List of Fields</h3>
+<p>Fields are specified by their property name in Sanity’s JSON format.
+This means that something like “blog title” is spelt as
+<code>blogTitle</code>. The following is a list of all field names, all
+of which can be specified using the <code>-fb</code> argument.</p>
+<p><code>blogAuthors</code>, <code>blogTitle</code>,
+<code>content</code>, <code>craftTags</code>,
+<code>featuredMediaType</code>, <code>featuredPhoto</code>,
+<code>featuredPosts</code>, <code>publishDate</code>, <code>slug</code>,
+<code>summary</code>, <code>topicTag</code>.</p>
+<p><strong>Specifying fields whose contents come from the input document
+will be overwritten.</strong></p>
+<p>There is an ordering to how fields are updated in the document. It is
+first from the document specified in the input, then the fields borrowed
+from the reference document, then the fields specified using a given
+JSON file. The intended use is that fields which use reference
+properties (<code>_ref</code>) can be copied over using field borrowing,
+and fields which are more human-legible can be specified directly using
+this uploading mechanic. While overlap is supported, it should be used
+with caution.</p>
+<h3 id="examples">Examples</h3>
+<p>Here are some examples of uploading documents:</p>
+<ul>
+<li><code>python3 sup.py -i {filehere}</code>: This will upload the file
+as a blog. The blog title, summary, and content will be extracted from
+the file (assuming appropriate formatting) and will be filled in
+appropriately. All other fields will remain empty</li>
+<li><code>python3 sup.py -i {filehere} -d {docID}</code>: This will
+upload the file as a blog, just as above it will fill in the blog title,
+summary, and content. The topic tags, craft tags, and featured posts of
+the document whose ID was specified in <code>{docID}</code> will be
+copied over into the uploaded document as well.<br />
+</li>
+<li><code>python3 sup.py -i {filehere} -d {docID} -fb topicTags featuredMediaType</code>:
+This will upload the document as a blog and copy over the topic tags and
+featured media type (almost always an image) from the reference
+document. Since <code>-fb</code> was specified with parameters,
+<strong>this does not copy over the fields in the above
+list</strong>.</li>
+<li><code>python3 sup.py -i {filehere} -d {docID} -fb</code>: This will
+upload the file as a blog and does not copy over any fields. This
+includes the ones specified above. No additional fields from the
+reference document will be copied. This is equivalent to the first
+example.</li>
+<li><code>python3 sup.py -i {filehere} -fb {fields here}</code>:
+<strong>This does not work.</strong> Fields are specified with nowhere
+to borrow them from.</li>
+<li><code>python3 sup.py -i {filehere} -P</code>: This will
+automatically publish the uploaded document. By default (without
+specifying <code>-P</code>), documents are uploaded as drafts.</li>
+</ul>
+<p>For using the <code>-fu</code> or <code>--field-upload</code>
+argument, a JSON file is required which contains the field names and
+values. An example of the contents of such a file follows.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;slug&quot;</span><span class="fu">:</span> <span class="st">&quot;test-document&quot;</span><span class="fu">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;featuredMediaType&quot;</span><span class="fu">:</span> <span class="st">&quot;photo&quot;</span><span class="fu">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;publishDate&quot;</span><span class="fu">:</span> <span class="st">&quot;2023-12-13&quot;</span><span class="fu"></span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>This file specifies the document’s slug, featured media type and blog
+authors. In general, it is expected that this feature will be used to
+specify properties such as slug, publish date, featured media type,
+summary, blog title, or any such properties whose values are easily
+readable.</p>
+<p>Once again, any fields specified in the JSON file will override those
+specified in the reference. For example, if
+<code>featuredMediaType</code> was specified as video in the reference,
+but photo in the JSON file, the uploaded document will use photo for
+<code>featuredMediaType</code>. The following examples show how to use
+the field uploading argument:</p>
+<ul>
+<li><code>python3 sup.py -i {filehere} -fu {fieldfilehere}</code>: This
+uploads the document and takes the fields specified in the field
+file</li>
+<li><code>python3 sup.py -i {filehere} -d {docID} -fb {fields here} -fu {fieldfilehere}</code>:
+This uploads the document, borrowing the fields from the reference
+document and including the fields from the field file.</li>
+</ul>
+</body>
+</html>
